@@ -13,6 +13,10 @@ java {
 	}
 }
 
+ext {
+	set('springCloudVersion', "2024.0.0")
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -28,6 +32,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.kafka:spring-kafka'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.retry:spring-retry'
+
 	implementation 'io.mongock:mongock-springboot:5.5.0'
 	implementation 'io.mongock:mongodb-springdata-v3-driver:5.5.0'
 
@@ -39,6 +46,12 @@ dependencies {
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 tasks.named('test') {
