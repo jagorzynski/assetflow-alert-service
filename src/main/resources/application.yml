@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: assetflow-alert-service
+  data:
+    mongodb:
+      uri: mongodb://sothrose:sothrose@localhost:27019/alerts
+      database: alerts
+server:
+  port: 8085
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: alert-service-group
+    dlq-group-id: alert-service-dlq-group
+    max-poll-interval: 30000
+    trusted-packages: "com.sothrose.assetflow_alert_service.model"
+    concurrency: 3
+    batch-listener: false
+  topic:
+    portfolio-updates: portfolio-updates
+  listener:
+    ack-mode: manual
+    retry:
+      max-attempts: 3
+      backoff:
+        delay: 2000
+    dead-letter-topic: portfolio-updates-dlq
